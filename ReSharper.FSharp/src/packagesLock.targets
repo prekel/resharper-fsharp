@@ -1,0 +1,8 @@
+﻿<Project>
+    <ItemGroup>
+        <PackageLock Include="FSharp.Core" Version="5.0.0"/>
+        <PackageLock Include="JetBrains.FSharp.Compiler.Service" Version="2020.3.7"/>
+        <PackageLock Include="JetBrains.Fantomas" Version="2020.3.0"/>
+        <PackageLock Include="System.ValueTuple" Version="4.5.0"/>
+    </ItemGroup>
+</Project>

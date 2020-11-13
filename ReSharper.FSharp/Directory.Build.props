@@ -1,21 +1,16 @@
 <Project>
+  <Sdk Name="JetBrains.Build.VersionLockFileTargets" Version="0.0.3" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;JET_MODE_ASSERT</DefineConstants>
+    <PackageLockFilePath>$(MSBuildThisFileDirectory)src/packagesLock.targets</PackageLockFilePath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
     <DefineConstants>TRACE</DefineConstants>
   </PropertyGroup>
   
-  <PropertyGroup>
-    <FSharpCompilerServiceVersion>2020.3.7</FSharpCompilerServiceVersion>
-    <FSharpCoreVersion>5.0.0</FSharpCoreVersion>
-    <FantomasVersion>2020.3.0</FantomasVersion>
-    <ValueTupleVersion>4.5.0</ValueTupleVersion>
-  </PropertyGroup>
-
   <ItemGroup>
-    <PackageReference Include="System.ValueTuple" Version="$(ValueTupleVersion)" />
+    <PackageReference Include="System.ValueTuple" />
     <PackageReference Include="Microsoft.NETFramework.ReferenceAssemblies" Version="1.0.0-preview.2" />
   </ItemGroup>
 
@@ -24,5 +19,5 @@
     <AssemblyOriginatorKeyFile>$(MSBuildThisFileDirectory)resharper-fsharp.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
 
-  <Import Project="$(MSBuildThisFileDirectory)..\rider-fsharp\build\DotNetSdkPath.generated.props" />
+  <Import Project="$(MSBuildThisFileDirectory)..\rider-fsharp\build\DotNetSdkPath.generated.props" Condition="Exists('$(MSBuildThisFileDirectory)..\rider-fsharp\build\DotNetSdkPath.generated.props')" />
 </Project>

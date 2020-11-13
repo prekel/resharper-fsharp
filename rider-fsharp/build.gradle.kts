@@ -1,4 +1,5 @@
 import com.jetbrains.rd.generator.gradle.RdGenExtension
+import com.jetbrains.rd.generator.gradle.RdGenTask
 import org.gradle.api.tasks.testing.logging.TestExceptionFormat
 import org.jetbrains.grammarkit.tasks.GenerateLexer
 import org.jetbrains.intellij.IntelliJPlugin
@@ -17,7 +18,7 @@ buildscript {
     }
     dependencies {
         // https://www.myget.org/feed/rd-snapshots/package/maven/com.jetbrains.rd/rd-gen
-        classpath("com.jetbrains.rd:rd-gen:0.211.195")
+        classpath("com.jetbrains.rd:rd-gen:0.211.198")
     }
 }
 
@@ -135,40 +136,6 @@ fun File.writeTextIfChanged(content: String) {
     if (!exists() || readBytes().toHexString() != bytes.toHexString()) {
         println("Writing $path")
         writeBytes(bytes)
-    }
-}
-
-configure<RdGenExtension> {
-    val csOutput = File(repoRoot, "ReSharper.FSharp/src/FSharp.ProjectModelBase/src/Protocol")
-    val ktOutput = File(repoRoot, "rider-fsharp/src/main/java/com/jetbrains/rider/plugins/fsharp/protocol")
-
-    verbose = true
-    hashFolder = "build/rdgen"
-    logger.info("Configuring rdgen params")
-    classpath({
-        logger.info("Calculating classpath for rdgen, intellij.ideaDependency is ${intellij.ideaDependency}")
-        val sdkPath = intellij.ideaDependency.classes
-        val rdLibDirectory = File(sdkPath, "lib/rd").canonicalFile
-
-        "$rdLibDirectory/rider-model.jar"
-    })
-    sources(File(repoRoot, "rider-fsharp/protocol/src/kotlin/model"))
-    packages = "model"
-
-    generator {
-        language = "kotlin"
-        transform = "asis"
-        root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
-        namespace = "com.jetbrains.rider.model"
-        directory = "$ktOutput"
-    }
-
-    generator {
-        language = "csharp"
-        transform = "reversed"
-        root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
-        namespace = "JetBrains.Rider.Model"
-        directory = "$csOutput"
     }
 }
 
@@ -297,7 +264,7 @@ tasks {
 
     create("prepare") {
         group = riderFSharpTargetsGroup
-        dependsOn("rdgen", "writeNuGetConfig", "writeDotNetSdkPathProps")
+        dependsOn("rdgenIndependent", "writeNuGetConfig", "writeDotNetSdkPathProps")
     }
 
     create("buildReSharperPlugin") {
@@ -322,6 +289,69 @@ tasks {
                 }
             }
         }
+    }
+    
+    create<RdGenTask>("rdgenIndependent"){
+        doFirst{
+            configure<RdGenExtension> {
+                val csOutput = File(repoRoot, "ReSharper.FSharp/src/FSharp.ProjectModelBase/src/Protocol")
+                val ktOutput = File(repoRoot, "rider-fsharp/src/main/java/com/jetbrains/rider/plugins/fsharp/protocol")
+            
+                verbose = true
+                hashFolder = "build/rdgen"
+                logger.info("Configuring rdgen params")
+                classpath({
+                    logger.info("Calculating classpath for rdgen, intellij.ideaDependency is ${intellij.ideaDependency}")
+                    val sdkPath = intellij.ideaDependency.classes
+                    val rdLibDirectory = File(sdkPath, "lib/rd").canonicalFile
+            
+                    "$rdLibDirectory/rider-model.jar"
+                })
+                sources(File(repoRoot, "rider-fsharp/protocol/src/kotlin/model"))
+                packages = "model"
+            
+                generator {
+                    language = "kotlin"
+                    transform = "asis"
+                    root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
+                    namespace = "com.jetbrains.rider.model"
+                    directory = "$ktOutput"
+                }
+            
+                generator {
+                    language = "csharp"
+                    transform = "reversed"
+                    root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
+                    namespace = "JetBrains.Rider.Model"
+                    directory = "$csOutput"
+                }
+            }
+        }
+    }
+    
+    create<RdGenTask>("rdgenPwc"){
+        doFirst{
+            configure<RdGenExtension> {
+                val csOutput = File(repoRoot, "ReSharper.FSharp/src/FSharp.ProjectModelBase/src/Protocol")
+                val productsHome = repoRoot.parentFile.parentFile
+                
+                verbose = true
+                hashFolder = "build/rdgen"
+                logger.info("Configuring rdgen params")
+                sources(File(repoRoot, "rider-fsharp/protocol/src/kotlin/model"), File("$productsHome/Rider/Model/src"), File("$productsHome/Rider/ultimate/platform/ide-model"))
+
+               
+                packages = "model"
+                generator {
+                    language = "csharp"
+                    transform = "reversed"
+                    root = "com.jetbrains.rider.model.nova.ide.IdeRoot"
+                    namespace = "JetBrains.Rider.Model"
+                    directory = "$csOutput"
+                }
+            }
+        }
+               
     }
 }
 

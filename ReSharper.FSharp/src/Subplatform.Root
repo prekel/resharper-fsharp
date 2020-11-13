@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<SubplatformInfo xmlns="urn:schemas-jetbrains-com:build-subplatform-info" CompanyNameHuman="JetBrains" IsGitSubplatform="true">
+    <SubplatformInfo.SubplatformReferences>
+        <SubplatformReference Name="Psi.Features\src" />
+        <SubplatformReference Name="Psi.Features\Tasks" />
+        <SubplatformReference Name="Psi.Features\Core" />
+        <SubplatformReference Name="ReSharperAutomationTools\src\ReSharperHost" />
+        <SubplatformReference Name="ReSharperAutomationTools\src\CommandLineCore" />
+        <SubplatformReference Name="Platform\Core\Shell" />
+        <SubplatformReference Name="Platform\Core\Text" />
+        <SubplatformReference Name="Platform\Core\Ide" />
+        <SubplatformReference Name="Platform\RdProtocol" />
+    </SubplatformInfo.SubplatformReferences>
+    <SubplatformInfo.PrepareScripts>
+        <PrepareScript Path="frontendGradlew.cmd" />
+    </SubplatformInfo.PrepareScripts>
+</SubplatformInfo>
