@@ -2,7 +2,7 @@
   <Sdk Name="JetBrains.Build.VersionLockFileTargets" Version="0.0.3" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DefineConstants>TRACE;DEBUG;JET_MODE_ASSERT</DefineConstants>
-    <PackageLockFilePath>$(MSBuildThisFileDirectory)src/packagesLock.targets</PackageLockFilePath>
+    <PackageLockFilePath>$(MSBuildThisFileDirectory)src/PackagesLock.targets</PackageLockFilePath>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

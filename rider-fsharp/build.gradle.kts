@@ -338,7 +338,7 @@ tasks {
                 verbose = true
                 hashFolder = "build/rdgen"
                 logger.info("Configuring rdgen params")
-                sources(File(repoRoot, "rider-fsharp/protocol/src/kotlin/model"), File("$productsHome/Rider/Model/src"), File("$productsHome/Rider/ultimate/platform/ide-model"))
+                sources(File(repoRoot, "rider-fsharp/protocol/src/kotlin/model"), File("$productsHome/Rider/model/src"), File("$productsHome/Rider/ultimate/platform/ide-model"))
 
                
                 packages = "model"
