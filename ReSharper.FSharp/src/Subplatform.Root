@@ -11,7 +11,4 @@
         <SubplatformReference Name="Platform\Core\Ide" />
         <SubplatformReference Name="Platform\RdProtocol" />
     </SubplatformInfo.SubplatformReferences>
-    <SubplatformInfo.PrepareScripts>
-        <PrepareScript Path="frontendGradlew.cmd" />
-    </SubplatformInfo.PrepareScripts>
 </SubplatformInfo>
