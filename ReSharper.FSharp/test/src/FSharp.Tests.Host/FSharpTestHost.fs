@@ -54,7 +54,7 @@ type FSharpTestHost(lifetime: Lifetime, solution: ISolution, checkerService: Fcs
         solution.GetComponent<IProxyExtensionTypingProvider>().DumpTypeProvidersProcess()
 
     do
-        let fsTestHost = solution.RdFSharpModel().FsharpTestHost
+        let fsTestHost = solution.RdFSharpModel().FSharpTestHost
 
         // We want to get events published by background checker.
         checkerService.Checker.ImplicitlyStartBackgroundWork <- true
