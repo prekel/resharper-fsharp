@@ -1,17 +1,19 @@
 using Fantomas;
-using FSharp.Compiler;
+
 using FSharp.Compiler.SourceCodeServices;
+using FSharp.Compiler.Text;
+
 using JetBrains.ReSharper.Plugins.FSharp.Fantomas.Server;
+
 using Microsoft.FSharp.Collections;
 using Microsoft.FSharp.Control;
-using Range = FSharp.Compiler.Range.range;
 
 namespace JetBrains.ReSharper.Plugins.FSharp.Fantomas.Host
 {
   internal class FantomasCodeFormatter
   {
     private readonly FSharpChecker myChecker =
-      FSharpChecker.Create(null, null, null, null, null, null, null, null);
+      FSharpChecker.Create(null, null, null, null, null, null, null, null, null);
 
     private readonly FormatConfig.FormatConfig myDefaultFormatConfig = FormatConfig.FormatConfig.Default;
 
@@ -33,23 +35,48 @@ namespace JetBrains.ReSharper.Plugins.FSharp.Fantomas.Host
 
     private static FSharpParsingOptions Convert(RdFcsParsingOptions options) =>
       new FSharpParsingOptions(new[] {options.LastSourceFile},
-        ListModule.OfArray(options.ConditionalCompilationDefines), ErrorLogger.FSharpErrorSeverityOptions.Default,
+        ListModule.OfArray(options.ConditionalCompilationDefines), FSharpDiagnosticOptions.Default,
         false, options.LightSyntax, false, options.IsExe);
 
     private FormatConfig.FormatConfig Convert(RdFantomasFormatConfig config) =>
-      new FormatConfig.FormatConfig(config.IndentSize, config.MaxLineLength, config.SemicolonAtEndOfLine,
-        config.SpaceBeforeParameter, config.SpaceBeforeLowercaseInvocation, config.SpaceBeforeUppercaseInvocation,
-        config.SpaceBeforeClassConstructor, config.SpaceBeforeMember, config.SpaceBeforeColon, config.SpaceAfterComma,
-        config.SpaceBeforeSemicolon, config.SpaceAfterSemicolon, config.IndentOnTryWith, config.SpaceAroundDelimiter,
-        config.MaxIfThenElseShortWidth, config.MaxInfixOperatorExpression, config.MaxRecordWidth,
-        myDefaultFormatConfig.MaxRecordNumberOfItems, myDefaultFormatConfig.RecordMultilineFormatter,
-        config.MaxArrayOrListWidth, myDefaultFormatConfig.MaxArrayOrListNumberOfItems,
-        myDefaultFormatConfig.ArrayOrListMultilineFormatter, config.MaxValueBindingWidth,
-        config.MaxFunctionBindingWidth, myDefaultFormatConfig.MaxDotGetExpressionWidth,
-        config.MultilineBlockBracketsOnSameColumn, config.NewlineBetweenTypeDefinitionAndMembers,
-        config.KeepIfThenInSameLine, config.MaxElmishWidth, config.SingleArgumentWebMode,
-        config.AlignFunctionSignatureToIndentation, config.AlternativeLongMemberDefinitions,
-        myDefaultFormatConfig.MultiLineLambdaClosingNewline, myDefaultFormatConfig.DisableElmishSyntax,
-        myDefaultFormatConfig.EndOfLine, myDefaultFormatConfig.StrictMode);
+      new FormatConfig.FormatConfig(
+        config.IndentSize,
+        config.MaxLineLength,
+        config.SemicolonAtEndOfLine,
+        config.SpaceBeforeParameter,
+        config.SpaceBeforeLowercaseInvocation,
+        config.SpaceBeforeUppercaseInvocation,
+        config.SpaceBeforeClassConstructor,
+        config.SpaceBeforeMember,
+        config.SpaceBeforeColon,
+        config.SpaceAfterComma,
+        config.SpaceBeforeSemicolon,
+        config.SpaceAfterSemicolon, config.IndentOnTryWith,
+        config.SpaceAroundDelimiter,
+        config.MaxIfThenElseShortWidth,
+        config.MaxInfixOperatorExpression,
+        config.MaxRecordWidth,
+        myDefaultFormatConfig.MaxRecordNumberOfItems,
+        myDefaultFormatConfig.RecordMultilineFormatter,
+        config.MaxArrayOrListWidth,
+        myDefaultFormatConfig.MaxArrayOrListNumberOfItems,
+        myDefaultFormatConfig.ArrayOrListMultilineFormatter,
+        config.MaxValueBindingWidth,
+        config.MaxFunctionBindingWidth,
+        myDefaultFormatConfig.MaxDotGetExpressionWidth,
+        config.MultilineBlockBracketsOnSameColumn,
+        config.NewlineBetweenTypeDefinitionAndMembers,
+        config.KeepIfThenInSameLine,
+        config.MaxElmishWidth,
+        config.SingleArgumentWebMode,
+        config.AlignFunctionSignatureToIndentation,
+        config.AlternativeLongMemberDefinitions,
+        myDefaultFormatConfig.MultiLineLambdaClosingNewline,
+        myDefaultFormatConfig.DisableElmishSyntax,
+        myDefaultFormatConfig.EndOfLine,
+        myDefaultFormatConfig.StrictMode,
+        false, //TODO
+        false, //TODO
+        false); //TODO
   }
 }
