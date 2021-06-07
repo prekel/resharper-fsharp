@@ -83,6 +83,7 @@ type InterpolatedStringCandidateAnalyzer() =
                 | parent -> loop (getArgExpr parent.ArgumentExpression :: acc) parent
             loop [] prefixAppExpr
 
+
         if appliedExprs.Length <> matchingFormatSpecsAndArity.Length then () else
 
         // Check that the applied expressions do not contain disallowed string literals
@@ -106,6 +107,10 @@ type InterpolatedStringCandidateAnalyzer() =
             |> Seq.zip matchingFormatSpecsAndArity
             |> Seq.map (fun ((r, _), expr) -> r, expr)
             |> List.ofSeq
+
+        let qwe1 = prefixAppExpr.Type()
+        let qwe2 = (prefixAppExpr.FirstChild:?> IFSharpExpression).Type();
+        let qwe2 = outerPrefixAppExpr.Type();
 
         InterpolatedStringCandidateWarning(formatStringExpr, prefixAppExpr, outerPrefixAppExpr, formatSpecsAndExprs)
         |> consumer.AddHighlighting
